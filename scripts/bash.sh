@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ========================== Configuration ==========================
-USER="chinni"
+USER="vamshi"
 GROUP="dev"
 ROLE_NAME="dev"
 CSR_NAME="${USER}-csr"

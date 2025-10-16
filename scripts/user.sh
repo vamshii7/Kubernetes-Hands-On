@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ========================== Configuration ==========================
-USER="sahasra"
+USER="Vamshi"
 GROUP="dev"
 NAMESPACE="default"
 ROLE_NAME="dev"
