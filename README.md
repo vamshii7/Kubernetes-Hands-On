@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-kind%20%7C%20minikube%20%7C%20AKS-blueviolet)
 
 A comprehensive, ready-to-use **Kubernetes learning repository** packed with practical YAML manifests, Dockerfiles, scripts, and automation examples.  
-This project helps you **learn, test, and master** Kubernetes features locally (with kind or Minikube) or in cloud-managed clusters like AKS, EKS, or GKE.
+This project helps you **learn, test, and master** Kubernetes features locally (with kind or Minikube)
 
 ---
 
@@ -112,7 +112,6 @@ Access your app at [http://example.local](http://example.local)
 | Docker | 24.x |
 | kind | 0.22+ |
 | kubectl | v1.30+ |
-| Helm (optional) | v3+ |
 
 ---
 
@@ -133,9 +132,5 @@ DevOps & Kubernetes Enthusiast
 📦 [DockerHub](https://hub.docker.com/) • 🧭 [GitHub](https://github.com/vamshii7)
 
 ---
-
-## 📝 License
-
-This project is licensed under the [MIT License](LICENSE).
 
 > ⚙️ _Feel free to fork and contribute — PRs are welcome!_
