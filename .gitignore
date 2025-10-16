@@ -1,0 +1,43 @@
+# Kubeconfig files with cluster credentials
+kubeconfig
+*.kubeconfig
+config
+.kube/
+
+# Kubernetes secrets and sensitive data
+*secret*.yaml
+*secret*.yml
+*.pem
+*.key
+*.crt
+*.pub
+
+# Helm charts
+*.tgz
+Chart.lock
+charts/
+
+# Log files
+*.log
+crash.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# IDE directories
+.vscode/
+.idea/
+*.iml
+
+# Local environment configurations
+.env
+.envrc
+*.local.yaml
+*-local.yml
+
+# Terraform (if using for K8s infrastructure)
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars

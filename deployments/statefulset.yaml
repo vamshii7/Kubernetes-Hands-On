@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      -  name: mysql
+         image: httpd
+         imagePullPolicy: IfNotPresent
+         resources:
+          limits:
+            cpu: 20m
+            memory: 20Mi

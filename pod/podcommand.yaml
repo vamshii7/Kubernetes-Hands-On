@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sample-pod
+spec:
+  containers:
+  - name: ubuntu-container
+    image: ubuntu
+    command: ["/bin/bash", "-c"]
+    args:
+      - |
+        echo Hello from Kubernetes
+        apt-get update
+        apt-get install -y curl
+        curl https://google.com
+        sleep 120
+  restartPolicy: Never

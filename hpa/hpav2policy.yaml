@@ -1,0 +1,37 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: demo-app-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: demo-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+  behavior:
+    scaleUp:
+      selectPolicy: Max
+      policies:
+        - type: Percent
+          value: 50   # 50% of 4 = 2 pods
+          periodSeconds: 30
+        - type: Pods
+          value: 3    # Scale by 3 pods
+          periodSeconds: 30
+    scaleDown:
+      selectPolicy: Min
+      policies:
+        - type: Percent
+          value: 50   # 50% of 4 = 2 pods
+          periodSeconds: 30
+        - type: Pods
+          value: 1    # Scale by 1 pod
+          periodSeconds: 30

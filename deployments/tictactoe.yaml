@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tictactoe
+  labels:
+    tier: front-end
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: front-end
+  template:
+    metadata:
+      labels:
+        tier: front-end  
+    spec:
+      containers:
+        - name: tictactoe-container
+          image: vamshii7/tictactoe:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "10Mi"
+            limits:
+              cpu: "150m"
+              memory: "20Mi"

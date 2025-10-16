@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tolr-deploy
+spec:
+  template:
+    metadata:
+      name: mypod
+      labels:
+        app: v1
+    spec:
+      containers:
+        - image: nginx
+          name: nginx-container
+      nodeSelector:
+        gpu: "yes"
+      tolerations:
+        - key: "gpu"
+          operator: "Equal"
+          value: "max"
+          effect: "NoSchedule"
+  selector:
+    matchLabels:
+      app: v1
+  replicas: 3

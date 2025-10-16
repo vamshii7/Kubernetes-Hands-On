@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy
+  namespace: dev
+spec:
+  template:
+    metadata:
+      labels:
+        app: v1
+    spec:
+      containers:
+       - image: nginx
+         name: nginx-container
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - v1
+                  - v2
+  replicas: 3
+  selector:
+    matchLabels:
+        app: v1

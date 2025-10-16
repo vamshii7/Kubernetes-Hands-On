@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: devops-fail
+spec:
+  backoffLimit: 3       # retry failed Pods 3 times
+  completions: 1        # only 1 successful Pod needed
+  parallelism: 1
+  ttlSecondsAfterFinished: 300
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: job-devops
+        image: busybox
+        command: ["/bin/sh", "-c", "echo 'Failing intentionally' && exit 1"]

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: proc-pod
+spec:
+  containers:
+    - name: proc-container
+      image: ubuntu
+      command: ["/bin/sh", "-c"]
+      args:
+        - apt update && apt install procps -y && ps -aux >> /data/proc.txt && sleep 3600
+      volumeMounts:
+        - mountPath: /data
+          name: volume-1
+  volume:
+    - name: volume-1
+      hostPath:
+        path: /home/vamshi
+        type: Directory

@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: devops
+spec:
+  backoffLimit: 3
+  activeDeadlineSeconds: 30
+  completions: 8
+  parallelism: 8
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: job-devops
+        image: nginx:latest
+        command: ["/bin/sh", "-c", "echo Welcome to xfusioncorp!"]
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"

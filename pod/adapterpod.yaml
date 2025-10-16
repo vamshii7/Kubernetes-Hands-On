@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: metrics-adapter-pod
+  labels:
+    app: metrics-app
+spec:
+  containers:
+    - name: app
+      image: custom-app
+      ports:
+        - containerPort: 8080
+
+    - name: adapter
+      image: adapter-app
+      ports:
+        - containerPort: 9100

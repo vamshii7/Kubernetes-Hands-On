@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: devops
+spec:
+  schedule: "*/1 * * * *"
+  successfulJobsHistoryLimit: 1   # keep only last 3 successful jobs
+  failedJobsHistoryLimit: 1       # keep only last 1 failed job
+  concurrencyPolicy: Forbid   # do not allow concurrent runs
+  suspend: true   # ensure the cronjob is active/suspended
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: cron-devops
+            image: nginx:latest
+            command: ["/bin/sh", "-c", "echo Welcome to xfusioncorp!"]
+          restartPolicy: OnFailure
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 100m
+              memory: 128Mi
+

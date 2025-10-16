@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-affinity
+spec:
+  template:
+    metadata:
+      labels:
+        cpu: high
+    spec:
+      containers:
+        - image: nginx
+          name: container1
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: cpu
+                operator: In
+                values:
+                - high
+                - medium
+  replicas: 3
+  selector:
+    matchLabels:
+      cpu: high
