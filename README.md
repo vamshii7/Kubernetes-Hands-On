@@ -125,12 +125,13 @@ Access your app at [http://example.local](http://example.local)
 
 ---
 
-## 🧑‍💻 Author
+## ✍️ Authors
 
-**Vamshi Krishna**  
-DevOps & Kubernetes Enthusiast  
-📦 [DockerHub](https://hub.docker.com/) • 🧭 [GitHub](https://github.com/vamshii7)
+👨‍💻 **Vamshi Krishna**  
+DevOps Engineer | DevOps & Kubernetes Enthusiast  
 
----
+📫 Reach out on  [GitHub](https://github.com/vamshii7)   •  [LinkedIn](https://www.linkedin.com/in/vamshi7/)  
+🌐 Focus Areas: Terraform, AKS, Azure DevOps, Kubernetes, and Cloud Automation  
+🚀 Building hands-on labs for real-world learning!  
 
 > ⚙️ _Feel free to fork and contribute — PRs are welcome!_
