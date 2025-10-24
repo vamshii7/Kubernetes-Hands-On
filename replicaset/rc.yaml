@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: httpd-replicationcontroller-t3q5
+spec:
+  replicas: 1
+  selector:
+    app: httpd_app
+  template:
+    metadata:
+      labels:
+        app: httpd_app
+    spec:
+      containers:
+      - name: httpd-container
+        image: httpd:latest
