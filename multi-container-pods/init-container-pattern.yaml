@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: init-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: init-demo
+  template:
+    metadata:
+      labels:
+        app: init-demo
+    spec:
+      initContainers:
+      - name: init-message
+        image: busybox
+        command: ["/bin/sh", "-c", "echo 'Init completed!' > /data/message.txt"]
+        volumeMounts:
+          - name: shared-data
+            mountPath: /data
+      containers:
+      - name: main
+        image: busybox
+        command: ["/bin/sh", "-c", "cat /data/message.txt; sleep 3600"]
+        volumeMounts:
+          - name: shared-data
+            mountPath: /data
+      volumes:
+      - name: shared-data
+        emptyDir: {}
