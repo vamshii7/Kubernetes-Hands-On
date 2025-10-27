@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: daily-report
+spec:
+  schedule: "0 2 * * *"            # Run daily at 02:00 UTC
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: report
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo 'Daily report job'
+# CronJobs create Jobs on schedule. Monitor history limits for production.

@@ -1,0 +1,31 @@
+# Node Affinity Example
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-affinity-demo
+  labels:
+    app: affinity-demo
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: disktype
+            operator: In
+            values:
+            - ssd
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: region
+            operator: In
+            values:
+            - us-east-1
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+# Ensure at least one node is labeled with disktype=ssd before applying this Pod.

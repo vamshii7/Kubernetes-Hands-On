@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: local-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /mnt/data/local-pv      # Local testing only: hostPath binds to node filesystem
+  persistentVolumeReclaimPolicy: Retain
+# For production use cloud provider volumes or dynamic provisioning via StorageClass.

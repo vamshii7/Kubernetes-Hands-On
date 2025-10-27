@@ -1,10 +1,14 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: example-ingress
+  name: nginx-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
+  tls:
+  - hosts:
+    - example.local
+    secretName: example-tls
   rules:
   - host: example.local
     http:
@@ -13,6 +17,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: nginx-clusterip
+            name: nginx-service
             port:
               number: 80
+# Requires an Ingress controller (e.g., ingress-nginx). Use cert-manager for TLS.

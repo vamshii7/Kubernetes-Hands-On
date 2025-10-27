@@ -105,6 +105,18 @@ Access your app at [http://example.local](http://example.local)
 
 ---
 
+---
+## Usage notes
+- YAMLs in this repo are commented for learning. You can apply them directly in a test namespace:
+  ```bash
+  kubectl create namespace test
+  kubectl apply -f pod.yaml -n test
+  ```
+- Some resources require cluster features (Ingress controller, StorageClass, metrics-server for HPA).
+- Secrets in `secret.yaml` are base64-encoded placeholders — replace with real values for testing.
+
+---
+
 ## 🧰 Tools & Versions
 
 | Tool | Version |

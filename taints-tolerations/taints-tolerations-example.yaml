@@ -1,0 +1,19 @@
+# Taints and Tolerations Example
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toleration-demo
+spec:
+  tolerations:
+  - key: "dedicated"
+    operator: "Equal"
+    value: "db"
+    effect: "NoSchedule"
+  containers:
+  - name: nginx
+    image: nginx:latest
+    ports:
+    - containerPort: 80
+# Before applying, taint a node using:
+# kubectl taint nodes <node-name> dedicated=db:NoSchedule
+# This will allow the pod to be scheduled on the tainted node.

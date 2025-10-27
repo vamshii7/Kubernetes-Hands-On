@@ -1,0 +1,28 @@
+# Readiness Probe Example
+# Purpose: Controls when a Pod starts receiving traffic via Service or Ingress.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: readiness-demo
+  labels:
+    app: probe-demo
+spec:
+  containers:
+  - name: app
+    image: busybox
+    args:
+      - /bin/sh
+      - -c
+      - |
+        echo "Starting up..."; sleep 20; echo "Ready!"; sleep 600
+    readinessProbe:
+      exec:
+        command:
+          - cat
+          - /tmp/ready
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      failureThreshold: 3
+
+#This example uses an exec probe. The Pod only becomes Ready after /tmp/ready exists.
+#Until then, Kubernetes does not send traffic to it via Services or Ingress — preventing premature requests during initialization.

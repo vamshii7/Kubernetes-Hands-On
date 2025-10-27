@@ -5,8 +5,8 @@ config
 .kube/
 
 # Kubernetes secrets and sensitive data
-*secret*.yaml
-*secret*.yml
+# *secret*.yaml
+# *secret*.yml
 *.pem
 *.key
 *.crt

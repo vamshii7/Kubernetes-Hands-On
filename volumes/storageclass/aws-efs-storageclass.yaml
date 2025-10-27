@@ -1,0 +1,25 @@
+# Example StorageClass for AWS EFS via the EFS CSI driver
+# Note: AWS EFS typically requires creating an EFS filesystem and access points.
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aws-efs-sc
+provisioner: efs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  provisioningMode: efs-ap           # or efs-provisioner depending on driver
+  # Other driver-specific parameters may be required (e.g., throughputMode)
+---
+# PVC for EFS (RWX)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aws-efs-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: aws-efs-sc
+  resources:
+    requests:
+      storage: 5Gi

@@ -1,0 +1,25 @@
+# StorageClass for Azure File CSI (SMB share accessible across nodes)
+# Requires: Azure File CSI driver installed (file.csi.azure.com)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: azure-file-sc
+provisioner: file.csi.azure.com
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
+parameters:
+  skuName: Standard_LRS
+  # For higher performance, use Premium_LRS and other parameters per docs
+---
+# PVC that will create an Azure File share dynamically
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azure-file-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: azure-file-sc
+  resources:
+    requests:
+      storage: 5Gi

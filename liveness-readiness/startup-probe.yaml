@@ -1,0 +1,29 @@
+# Startup Probe Example
+# Purpose: Allows slow-starting applications to initialize before liveness probes kick in.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-demo
+  labels:
+    app: probe-demo
+spec:
+  containers:
+  - name: backend
+    image: busybox
+    args:
+      - /bin/sh
+      - -c
+      - |
+        echo "Simulating slow startup..."; sleep 40; echo "App Ready!"; sleep 600
+    startupProbe:
+      httpGet:
+        path: /
+        port: 8080
+      failureThreshold: 10   # Allow up to 10 failures (10 * 5s = 50s startup time)
+      periodSeconds: 5
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 8080
+      initialDelaySeconds: 60  # Starts only after startupProbe succeeds
+      periodSeconds: 10

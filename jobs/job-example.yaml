@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-backup
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: backup
+        image: alpine:3.18
+        command: ["/bin/sh", "-c"]
+        args:
+        - echo "simulate backup"; sleep 5; exit 0
+  backoffLimit: 4
+# Jobs run to completion. Use for one-off tasks or ad-hoc maintenance.

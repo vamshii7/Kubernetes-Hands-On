@@ -1,0 +1,24 @@
+# Liveness Probe Example
+# Purpose: Automatically restart container when it becomes unresponsive or unhealthy.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: liveness-demo
+  labels:
+    app: probe-demo
+spec:
+  containers:
+  - name: web
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+    # A simple HTTP GET probe checking the root path
+    livenessProbe:
+      httpGet:
+        path: /
+        port: 80
+      initialDelaySeconds: 10  # Wait before starting the probe
+      periodSeconds: 5         # How often to check
+      failureThreshold: 3      # Restart after 3 consecutive failures
+
+# If the NGINX process hangs or the endpoint fails to return HTTP 200, Kubernetes restarts the container — ensuring self-healing.

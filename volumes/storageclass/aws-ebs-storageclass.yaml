@@ -1,0 +1,25 @@
+# StorageClass for AWS EBS CSI (block storage - single node attach)
+# Requires: AWS EBS CSI driver installed (e.g., ebs.csi.aws.com)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aws-ebs-sc
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  type: gp3    # gp2/gp3/io1 etc. adjust per storage performance needs
+  fsType: ext4
+---
+# PVC requesting an EBS volume dynamically
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: aws-ebs-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: aws-ebs-sc
+  resources:
+    requests:
+      storage: 10Gi

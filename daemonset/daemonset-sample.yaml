@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: sample-daemon
+spec:
+  selector:
+    matchLabels:
+      name: sample-daemon
+  template:
+    metadata:
+      labels:
+        name: sample-daemon
+    spec:
+      containers:
+      - name: node-exporter
+        image: prom/node-exporter:latest
+        ports:
+        - containerPort: 9100
