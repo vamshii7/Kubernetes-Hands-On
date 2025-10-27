@@ -23,6 +23,7 @@ This project helps you **learn, test, and master** Kubernetes features locally (
 | `jobs/` | Job and CronJob YAMLs for batch and scheduled workloads. |
 | `kind-cluster/` | Kind cluster configuration and automation script. |
 | `liveness-readiness/` | Probes demonstrating health checks and failure recovery. |
+| `multi-container-pod/` | Multi-Container Pod Patterns in Kubernetes. |
 | `network-policy/` | NetworkPolicy configurations for pod communication control. |
 | `nodeaffinity/` | Node affinity and anti-affinity scheduling examples. |
 | `pod/` | Basic pod definitions for fundamental Kubernetes learning. |
