@@ -5,4 +5,4 @@ metadata:
   namespace: demo
 data:
   APP_MODE: "production"
-  WELCOME_MSG: "Hello from ConfigMap!"
+  APP_COLOR: "blue"

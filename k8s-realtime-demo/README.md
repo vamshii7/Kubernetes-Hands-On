@@ -1,26 +1,45 @@
-# 🚀 Kubernetes Realtime Demo (NodePort + Namespace Based)
+# 🚀 Kubernetes Realtime Demo
 
 This is a **complete end-to-end Kubernetes demo** that brings together multiple concepts:
-ConfigMaps, Secrets, Probes, Affinity, Taints, HPA, and NodePort Service — all running inside a custom namespace.
+
+## 🧩 Includes:
+✅ ConfigMaps and Secrets  
+✅ Volumes (PV & PVC)  
+✅ Multi-Container Pods  
+✅ Liveness & Readiness Probes  
+✅ Node Affinity  
+✅ Taints & Tolerations  
+✅ HPA (Horizontal Pod Autoscaler)  
+✅ Ingress with NGINX  
+✅ NodePort Service for verification 
 
 ---
 
-## 🧩 Prerequisites
-- A running Kubernetes cluster (kind / minikube / AKS / GKE / EKS)
-- `kubectl` CLI configured to access the cluster
-- Metrics Server installed (for HPA to work)
+## ⚙️ Prerequisites
+
+Ensure you have:
+- 🧰 **kind** or **minikube** cluster running
+- 📦 Metrics Server installed for HPA:
   ```bash
   kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
   ```
-- `kubectl get nodes` should show at least one Ready node
+- 🗂️ Create storage path on node:
+  ```bash
+  docker exec -it kind-control-plane mkdir -p /mnt/data/demo-storage
+  ```
+- 🧱 Enable NGINX ingress controller (for kind):
+  ```bash
+  kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+  ```
 
 ---
 
-## ⚙️ Setup Steps
+## 🚀 Deployment Steps
 
-### 1️⃣ Create Namespace
+### 1️⃣ Create Namespace and Volume
 ```bash
-kubectl apply -f namespace-demo.yaml
+kubectl apply -f namespace.yaml
+kubectl apply -f pv-pvc.yaml
 ```
 
 ### 2️⃣ Deploy ConfigMap and Secret
@@ -36,28 +55,39 @@ kubectl apply -f deployment.yaml -n demo
 
 ### 4️⃣ Expose using NodePort
 ```bash
-kubectl apply -f service-nodeport.yaml -n demo
+kubectl apply -f service.yaml -n demo
 ```
 
-### 5️⃣ Enable HPA (optional)
+### 5️⃣ (optional) Enable HPA  and Ingress
 ```bash
 kubectl apply -f hpa.yaml -n demo
+kubectl apply -f ingress.yaml
+```
+
+## 🔍 Verification
+
+Check resources:
+```bash
+kubectl get all -n demo
+kubectl get pvc -n demo
+kubectl get pv
+kubectl describe pod -n demo
 ```
 
 ### 6️⃣ Access App
+Access app via NodePort:
 ```bash
 kubectl get svc -n demo
+curl http://localhost:30080
 ```
-Then visit:
+If using ingress (add entry to /etc/hosts):
 ```
-http://<NodeIP>:30080
+127.0.0.1 demo.local
 ```
-
-For kind:
-```bash
-kubectl get nodes -o wide
+Then access:
 ```
-Use the internal IP of your kind node.
+http://demo.local
+```
 
 ---
 
@@ -68,6 +98,8 @@ Use the internal IP of your kind node.
 ✔ Affinity + toleration combo  
 ✔ NodePort exposure  
 ✔ HPA scaling demonstration  
+✔ Volumes (PV & PVC)  
+✔ Ingress with NGINX
 
 ---
 

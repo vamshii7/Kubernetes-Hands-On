@@ -1,59 +1,70 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pod-devops
+  name: demo-deployment
   namespace: demo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: pod-devops
+      app: demo-app
   template:
     metadata:
       labels:
-        app: pod-devops
+        app: demo-app
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      tolerations:
+        - key: "demo"
+          operator: "Exists"
+          effect: "NoSchedule"
       containers:
-      - name: main-app
+      - name: app-container
         image: nginx:latest
         ports:
-        - containerPort: 80
+          - containerPort: 80
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "250m"
+            memory: "128Mi"
         envFrom:
-        - configMapRef:
-            name: demo-config
-        - secretRef:
-            name: demo-secret
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
+          - configMapRef:
+              name: demo-config
+          - secretRef:
+              name: demo-secret
+        volumeMounts:
+          - name: demo-storage
+            mountPath: /data/app
         livenessProbe:
           httpGet:
             path: /
             port: 80
           initialDelaySeconds: 10
           periodSeconds: 10
-        resources:
-          requests:
-            cpu: 100m
-            memory: 128Mi
-          limits:
-            cpu: 250m
-            memory: 256Mi
-      - name: sidecar
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      - name: logger-sidecar
         image: busybox
-        command: ['sh', '-c', 'while true; do echo "Logging..."; sleep 10; done']
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: Exists
-      tolerations:
-      - key: "demo-taint"
-        operator: "Exists"
-        effect: "NoSchedule"
+        command: ["sh", "-c", "tail -f /data/app/access.log"]
+        volumeMounts:
+          - name: demo-storage
+            mountPath: /data/app
+      volumes:
+        - name: demo-storage
+          persistentVolumeClaim:
+            claimName: demo-pvc
