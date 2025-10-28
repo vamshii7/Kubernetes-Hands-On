@@ -77,7 +77,3 @@ kubectl delete ns demo
 ```
 
 ---
-
-## 👨‍💻 Authors
-**Vamshi Krishna**  
-Hands-on Kubernetes Practitioner | DevOps Engineer
