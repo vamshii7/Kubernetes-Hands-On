@@ -1,0 +1,6 @@
+# Count YAML files as YAML instead of data
+*.yaml linguist-language=YAML
+*.yml linguist-language=YAML
+
+# Optionally, mark generated shell scripts as vendored so they don’t count
+scripts/*.sh linguist-vendored
