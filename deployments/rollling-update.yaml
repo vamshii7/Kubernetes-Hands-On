@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: httpd-deploy
+  name: httpd-deploy
+  namespace: datacenter
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: httpd-deploy
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: httpd-deploy
+    spec:
+      containers:
+      - image: httpd:2.4.25
+        name: httpd
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service
+  namespace: datacenter
+spec:
+  selector:
+    app: httpd-deploy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30008
+  type: NodePort

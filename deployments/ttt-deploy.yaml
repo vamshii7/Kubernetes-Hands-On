@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ttt-v2-deploy
+  labels:
+    app: ttt-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ttt-v2
+  template:
+    metadata:
+      labels:
+        app: ttt-v2
+    spec:
+      containers:
+      - image: docker.io/vamshii7/tictactoe:v2
+        name: ttt-v2-container
+        # imagePullSecrets:
+        #   - name: dockerhub-secret
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-loadbalancer
+spec:
+  selector:
+    app: ttt-v2
+  ports:
+    - port: 5000
+      targetPort: 5000
+  type: LoadBalancer
