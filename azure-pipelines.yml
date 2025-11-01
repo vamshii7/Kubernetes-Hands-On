@@ -33,4 +33,4 @@ stages:
           action: 'deploy'
           connectionType: 'kubernetesServiceConnection'
           kubernetesServiceConnection: 'KubernetesConnection'
-          manifests: 'deployments/deploy.yaml'
+          manifests: 'deployments/Deployment.yaml'
