@@ -1,0 +1,47 @@
+resources:
+  repositories:
+    - repository: terraformRepo
+      type: github
+      name: vamshii7/Kubernetes-Hands-On
+      ref: main
+      endpoint: github.com_vamshii7
+
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Deploy
+  displayName: "🚀 Deploy TicTacToe v2 on AKS"
+  jobs:
+  - job: DeployTTT
+    displayName: "Deploy TicTacToe v2"
+    steps:
+      - checkout: terraformRepo
+
+      - script: |
+          echo "Files pulled from Repo:"
+          ls -lR deployments/
+        displayName: "List checked out files"
+
+      - task: KubectlInstaller@0
+        inputs:
+          kubectlVersion: 'latest'
+
+      # Optional: only if your DockerHub repo is private
+      # - task: Kubernetes@1
+      #   inputs:
+      #     connectionType: 'Kubernetes Service Connection'
+      #     kubernetesServiceEndpoint: 'KubernetesConnection'
+      #     command: 'createSecret'
+      #     secretType: 'dockerRegistry'
+      #     secretName: 'dockerhub-secret'
+      #     dockerRegistryEndpoint: 'DockerHubConnection'
+
+      - task: KubernetesManifest@1
+        inputs:
+          action: 'deploy'
+          connectionType: 'kubernetesServiceConnection'
+          kubernetesServiceConnection: 'KubernetesConnection'
+          manifests: 'deployments/ttt-deploy.yaml'
