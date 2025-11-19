@@ -1,7 +1,7 @@
 # Pods Kubernetes Deep Dive
 
 ## Overview
-A **Pod** is the smallest deployable unit in Kubernetes. It encapsulates one or more containers that share network namespace (localhost) and storage volumes. Pods are ephemeral by design — they can be created, destroyed, and replaced by higher-level controllers like Deployments.
+A **Pod** is the smallest deployable unit in Kubernetes. It encapsulates one or more containers that share network namespace (localhost) and storage volumes. Pods are ephemeral by design - they can be created, destroyed, and replaced by higher-level controllers like Deployments.
 
 ## How it fits in the cluster lifecycle
 - Pods are scheduled onto Nodes by the scheduler.
@@ -24,7 +24,7 @@ A simple Pod manifest contains:
 - `spec.volumes[]` for shared volumes (emptyDir, configMap, secret, pvc)
 - `restartPolicy` e.g., `Always`, `OnFailure`, `Never`
 
-**Note:** For production workloads prefer Deployments/StatefulSets — Pods alone do not provide self-healing or scaling.
+**Note:** For production workloads prefer Deployments/StatefulSets - Pods alone do not provide self-healing or scaling.
 
 ## Practical Use-Cases
 - Debugging and one-off tasks (`kubectl run --rm -it ...`)
@@ -46,22 +46,22 @@ A simple Pod manifest contains:
 ## This is an example of Fully Loaded Pod Spec
 
 ### This YAML includes every feature a Pod can possibly take:  
-- ✔ TLS Secret
-- ✔ Pull Secrets
-- ✔ Sidecar
-- ✔ Init Containers
-- ✔ All major volume types
-- ✔ NodeSelector + NodeAffinity + PodAffinity + AntiAffinity
-- ✔ Tolerations
-- ✔ HostAliases
-- ✔ Topology Spread Constraints
-- ✔ Security Context
-- ✔ Probes
-- ✔ Resource Limits
-- ✔ Private registry pull
-- ✔ Priority class
-- ✔ DNS Policy
-- ✔ Custom scheduler
+  ✔ TLS Secret  
+  ✔ Pull Secrets  
+  ✔ Sidecar  
+  ✔ Init Containers  
+  ✔ All major volume types  
+  ✔ NodeSelector + NodeAffinity + PodAffinity + AntiAffinity  
+  ✔ Tolerations  
+  ✔ HostAliases  
+  ✔ Topology Spread Constraints  
+  ✔ Security Context  
+  ✔ Probes  
+  ✔ Resource Limits  
+  ✔ Private registry pull  
+  ✔ Priority class  
+  ✔ DNS Policy  
+  ✔ Custom scheduler  
 
 ```yaml
 apiVersion: v1                                                # Kubernetes API version.
@@ -126,14 +126,14 @@ spec:                                                         # Pod desired stat
           memory: "128Mi"
           cpu: "250m"
 
-      livenessProbe:                                          # Liveness probe—checks container health.
+      livenessProbe:                                          # Liveness probe-checks container health.
         httpGet:
           path: /healthz
           port: 80
         initialDelaySeconds: 15                               
         periodSeconds: 20                                     
 
-      readinessProbe:                                         # Readiness probe—checks if ready for traffic.
+      readinessProbe:                                         # Readiness probe-checks if ready for traffic.
         httpGet:
           path: /ready
           port: 80
