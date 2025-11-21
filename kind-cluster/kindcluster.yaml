@@ -1,6 +1,16 @@
+# kind: Cluster
+# apiVersion: kind.x-k8s.io/v1alpha4
+# name: dev
+# nodes:
+# - role: control-plane
+# - role: worker
+
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
-name: dev
 nodes:
-- role: control-plane
-- role: worker
+  - role: control-plane
+    extraPortMappings:
+      - containerPort: 31000
+        hostPort: 3100
+        protocol: TCP
+  - role: worker

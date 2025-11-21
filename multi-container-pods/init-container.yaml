@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ic-deploy-xfusion
+  name: ic-deploy-datacenter
   labels:
-    app: ic-xfusion
+    app: ic-datacenter
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ic-xfusion
+      app: ic-datacenter
   template:
     metadata:
       labels:
-        app: ic-xfusion
+        app: ic-datacenter
     spec:
-      containers:
-      - name: ic-main-xfusion
-        image: ubuntu:latest
-        command: ['/bin/bash', '-c', 'while true; do cat /ic/official; sleep 5; done']
-        volumeMounts:
-        - name: ic-volume-xfusion
-          mountPath: /ic
       initContainers:
-      - name: ic-msg-xfusion
-        image: ubuntu:latest
-        command: ['/bin/bash', '-c', 'echo Init Done - Welcome to xFusionCorp Industries > /ic/official']
-        volumeMounts:
-        - name: ic-volume-xfusion
-          mountPath: /ic
+      -  image: fedora:latest
+         name: ic-msg-datacenter
+         command: ['/bin/bash', '-c', 'echo Init Done - Welcome to xFusionCorp Industries > /ic/media; sleep 120']
+         volumeMounts:
+         -  name: ic-volume-datacenter
+            mountPath: /ic
+      containers:
+      -  image: fedora:latest
+         name: ic-main-datacenter
+         command: ['/bin/bash', '-c', 'while true; do cat /ic/media; sleep 5; done']
+         volumeMounts:
+         -  name: ic-volume-datacenter
+            mountPath: /ic
       volumes:
-      - name: ic-volume-xfusion
-        emptyDir: {}
+      -  name: ic-volume-datacenter
+         emptyDir: {}
