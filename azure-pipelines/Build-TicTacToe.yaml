@@ -12,8 +12,8 @@ variables:
   # set a sensible default image name; you can override in pipeline variables
   dockerRegistryServiceConnection: 'DockerHubConnection'
   dockerRepository: 'vamshii7/tictactoe'
-  dockerfilePath: 'docker/app/Dockerfile'
-  buildContext: 'docker/app'
+  dockerfilePath: 'docker/Dockerfile'
+  buildContext: 'docker/'
   imageTag: '$(Build.BuildId)'
   commitSha: $(Build.SourceVersion)
 
