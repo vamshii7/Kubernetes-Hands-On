@@ -1,6 +1,6 @@
 resources:
   repositories:
-    - repository: terraformRepo
+    - repository: myRepo
       type: github
       name: vamshii7/Kubernetes-Hands-On
       ref: main
@@ -10,11 +10,11 @@ trigger: none
 
 variables:
   # set a sensible default image name; you can override in pipeline variables
-  dockerRegistryServiceConnection: 'DockerHubConnection'  # <--- Service connection name you create in Azure DevOps
-  dockerRepository: '$(DOCKERHUB_USERNAME)/tictactoe' # dockerhub repo (override via pipeline variable)
-  dockerfilePath: 'docker/Dockerfile'                   # relative path to your Dockerfile
-  buildContext: 'docker/app'                                # build context
-  imageTag: '$(Build.BuildId)'                              # fallback tag (build id). We will also produce 'latest' & commit sha tags
+  dockerRegistryServiceConnection: 'DockerHubConnection'
+  dockerRepository: 'vamshii7/tictactoe'
+  dockerfilePath: 'docker/app/Dockerfile'
+  buildContext: 'docker/app'
+  imageTag: '$(Build.BuildId)'
   commitSha: $(Build.SourceVersion)
 
 stages:
@@ -26,8 +26,7 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-
-    - task: Checkout@3
+    - checkout: myRepo
       displayName: 'Checkout code'
 
     - script: |
