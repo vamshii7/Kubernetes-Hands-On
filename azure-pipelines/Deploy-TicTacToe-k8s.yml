@@ -13,10 +13,10 @@ pool:
 
 stages:
 - stage: Deploy
-  displayName: "🚀 Deploy TicTacToe v2 on AKS"
+  displayName: "🚀 Deploy TicTacToe on AKS"
   jobs:
   - job: DeployTTT
-    displayName: "Deploy TicTacToe v2"
+    displayName: "Deploy TicTacToe"
     steps:
       - checkout: terraformRepo
 
