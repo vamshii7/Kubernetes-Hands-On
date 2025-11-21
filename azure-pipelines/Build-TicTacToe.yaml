@@ -1,0 +1,54 @@
+resources:
+  repositories:
+    - repository: terraformRepo
+      type: github
+      name: vamshii7/Kubernetes-Hands-On
+      ref: main
+      endpoint: github.com_vamshii7
+
+trigger: none
+
+variables:
+  # set a sensible default image name; you can override in pipeline variables
+  dockerRegistryServiceConnection: 'DockerHubConnection'  # <--- Service connection name you create in Azure DevOps
+  dockerRepository: '$(DOCKERHUB_USERNAME)/tictactoe' # dockerhub repo (override via pipeline variable)
+  dockerfilePath: 'docker/Dockerfile'                   # relative path to your Dockerfile
+  buildContext: 'docker/app'                                # build context
+  imageTag: '$(Build.BuildId)'                              # fallback tag (build id). We will also produce 'latest' & commit sha tags
+  commitSha: $(Build.SourceVersion)
+
+stages:
+- stage: BuildAndPush
+  displayName: Build and push Docker image to Docker Hub
+  jobs:
+  - job: Build
+    displayName: Build & Push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+
+    - task: Checkout@3
+      displayName: 'Checkout code'
+
+    - script: |
+        echo "##[section]Image name: $(dockerRepository)"
+        echo "##[section]Dockerfile: $(dockerfilePath)"
+      displayName: 'Show build variables'
+
+    # Docker build and push using Docker@2
+    - task: Docker@2
+      displayName: Build and push image (buildAndPush)
+      inputs:
+        command: buildAndPush
+        containerRegistry: $(dockerRegistryServiceConnection)
+        repository: $(dockerRepository)
+        dockerfile: $(dockerfilePath)
+        buildContext: $(buildContext)
+        tags: |
+          $(imageTag)
+          latest
+          $(commitSha)
+
+    - script: |
+        echo "Image pushed: $(dockerRepository):$(imageTag) and $(dockerRepository):latest"
+      displayName: 'Confirm push'
