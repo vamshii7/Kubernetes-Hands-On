@@ -6,12 +6,6 @@ metadata:
   labels:
     type: frontend
 spec:
-  containers:
-    - image: nginx
-      name: nginx-container
-      ports:
-        - containerPort: 80
-  spec:
   initContainers:
   - name: print
     image: busybox
